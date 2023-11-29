@@ -1,6 +1,6 @@
 /*
-This is a class meant to contain the most important information about someone 
-in FamilySearch
+This is a class containing the most important information about someone 
+in FamilySearch. Created by Jacob McCoy on 27 November 2023
 */
 
 #ifndef PERSON_H
@@ -11,14 +11,17 @@ in FamilySearch
 
 typedef unsigned int id;
 typedef std::string fs_id;
+typedef std::string gedcom_id;
 
 class Person
 {
     public:
-        Person(id personal_id, fs_id personal_fs_id, std::string name);
+        Person(id personal_id, gedcom_id personal_gedcom_id, fs_id personal_fs_id, std::string name);
+
         fs_id GetFSID() const;
         id GetID() const;
         std::string GetName() const;
+        gedcom_id GetGEDCOMID() const;
 
         void AddFather(id father_id);
         void AddMother(id mother_id);
@@ -33,14 +36,26 @@ class Person
         std::string ToString() const;
 
     private:
+        // this is the id that come with the person specific to the gedcom file
+        gedcom_id personal_gedcom_id;
+
+        // personal_id is just an integer assigned by the program to keep track of the
+        // person within the program
         id personal_id;
+
+        // string that contains the FamilySearch ID of the person
         fs_id personal_fs_id;
+
+        // full name of the person
+        std::string name;
+
+        // vectors that contain relationships
         std::vector<id> mother_ids;
         std::vector<id> father_ids;
         std::vector<id> spouse_ids;
         std::vector<id> child_ids;
 
-}
+};
 
 
 #endif /* PERSON_H */
