@@ -20,6 +20,7 @@ class GedcomParser
 
     void ReplaceGedcomString(std::string gedcom_string);
     std::unordered_map<fs_id, Person> GetPersons() const;
+    size_t NumPersons() const;
 
     private:
     // the raw text from the gedcom file

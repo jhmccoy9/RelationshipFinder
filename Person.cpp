@@ -15,6 +15,8 @@ Person::Person(id personal_id, gedcom_id personal_gedcom_id, fs_id personal_fs_i
     this->name = name;
 }
 
+Person::Person(){}
+
 fs_id Person::GetFSID() const 
 {
     return this->personal_fs_id;
@@ -57,6 +59,18 @@ void Person::AddSpouse(id spouse_id)
 void Person::AddChild(id child_id)
 {
     this->child_ids.push_back(child_id);
+    return;
+}
+
+void Person::AddFamilySpouse(gedcom_id id)
+{
+    this->family_spouse_ids.push_back(id);
+    return;
+}
+
+void Person::AddFamilyChild(gedcom_id id)
+{
+    this->family_child_ids.push_back(id);
     return;
 }
 

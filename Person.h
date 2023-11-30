@@ -17,6 +17,7 @@ class Person
 {
     public:
         Person(id personal_id, gedcom_id personal_gedcom_id, fs_id personal_fs_id, std::string name);
+        Person();
 
         fs_id GetFSID() const;
         id GetID() const;
@@ -27,6 +28,8 @@ class Person
         void AddMother(id mother_id);
         void AddSpouse(id spouse_id);
         void AddChild(id child_id);
+        void AddFamilySpouse(gedcom_id id);
+        void AddFamilyChild(gedcom_id id);
 
         std::vector<id> GetFathers() const;
         std::vector<id> GetMothers() const;
@@ -50,10 +53,13 @@ class Person
         std::string name;
 
         // vectors that contain relationships
+        std::vector<gedcom_id> family_spouse_ids;
+        std::vector<gedcom_id> family_child_ids;
         std::vector<id> mother_ids;
         std::vector<id> father_ids;
         std::vector<id> spouse_ids;
         std::vector<id> child_ids;
+
 
 };
 

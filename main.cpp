@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 {
     // pull in the data from the gedcom file
     //std::string gedcom_file = argv[1];
-    std::string gedcom_file = "test_tree.ged";
+    std::string gedcom_file = "easy_tree.ged";
     std::ifstream in;
     in.open(gedcom_file);
     std::stringstream ss;
@@ -24,6 +24,7 @@ int main(int argc, char** argv)
     GedcomParser parser(gedcom_text);
     parser.Parse();
 
+    std::cout << "Num people: " << parser.NumPersons() << std::endl;
 
 
     return 0;
