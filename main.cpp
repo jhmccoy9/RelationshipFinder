@@ -1,5 +1,6 @@
 #include "Person.h"
 #include "GedcomParser.h"
+#include "RelationshipFinder.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -25,6 +26,11 @@ int main(int argc, char** argv)
     parser.Parse();
 
     std::cout << "Num people: " << parser.NumPersons() << std::endl;
+
+    // make the adjacency matrix
+    RelationshipFinder relationship(parser.GetPersons());
+
+    std::cout << "int size: " << sizeof(int) << std::endl;
 
 
     return 0;
