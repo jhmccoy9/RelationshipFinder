@@ -29,6 +29,10 @@ class GedcomParser
     // a hash map that contains all the Person objects, with their
     // fs ids as keys since that's how you search
     std::unordered_map<fs_id, Person> persons;
+
+    // some more hash maps to help you translate between id types
+    std::unordered_map<gedcom_id, fs_id> gedcom_to_fs;
+    std::unordered_map<id, gedcom_id> id_to_gedcom;
 };
 
 #endif //GEDCOM_PARSER_H

@@ -10,6 +10,8 @@ person objects. Created by Jacob McCoy on 28 November 2023
 #include "GedcomParser.h"
 #include <string>
 #include <unordered_map>
+#include <vector>
+
 
 class RelationshipFinder
 {
@@ -20,11 +22,17 @@ class RelationshipFinder
 
         std::string ToString();
 
-        // later, add the pathfinding functions...
+        // pathfinding functions
+        // Dijktra's algorithm: finds path between two points
+        std::vector<id> DijkstraRelationshipFinder();
+        // Floyd's algorithm: finds all paths between all points
+        std::vector<id> FloydRelationshipFinder(bool redo = true); // idk probably change the inputs
+        
 
     private:
         unsigned int* adjacency_matrix; // the matrix is 2d but stored as 1d
         unsigned int matrix_width; // matrix is square
+        std::unordered_map<fs_id, Person> family_map;
 
 };
 

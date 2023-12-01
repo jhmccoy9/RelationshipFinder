@@ -13,6 +13,9 @@ person objects. Created by Jacob McCoy on 28 November 2023
 // the constructor creates the adjacency matrix dynamically
 RelationshipFinder::RelationshipFinder(std::unordered_map<fs_id, Person> person_map)
 {
+    // copy in the person map
+    this->family_map = person_map;
+
     // make the dynamic array
     this->matrix_width = person_map.size();
     this->adjacency_matrix = new unsigned int[this->matrix_width * this->matrix_width];

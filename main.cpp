@@ -27,11 +27,11 @@ int main(int argc, char** argv)
 
     std::cout << "Num people: " << parser.NumPersons() << std::endl;
 
-    std::unordered_map<fs_id, Person> mymap;
-    mymap = parser.GetPersons();
+    std::unordered_map<fs_id, Person> my_family;
+    my_family = parser.GetPersons();
 
     // make the adjacency matrix
-    RelationshipFinder relationship(mymap);
+    RelationshipFinder relationship(my_family);
     std::cout << relationship.ToString() << std::endl;
 
     std::cout << "int size: " << sizeof(int) << std::endl;
