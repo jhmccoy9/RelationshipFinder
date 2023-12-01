@@ -7,12 +7,14 @@ person objects. Created by Jacob McCoy on 28 November 2023
 #include "RelationshipFinder.h"
 #include <climits>
 #include <sstream>
+#include <iostream>
 
 
 // the constructor creates the adjacency matrix dynamically
 RelationshipFinder::RelationshipFinder(std::unordered_map<fs_id, Person> person_map)
 {
     // make the dynamic array
+    this->matrix_width = person_map.size();
     this->adjacency_matrix = new unsigned int[this->matrix_width * this->matrix_width];
 
     // fill it with max values
@@ -51,6 +53,19 @@ RelationshipFinder::RelationshipFinder(std::unordered_map<fs_id, Person> person_
             this->adjacency_matrix[current_id * this->matrix_width + person.second.GetMothers().at(i)] = 1;
         }
     }
+
+    // error checking. matrix should be symmetric
+    for (int i = 0; i < this->matrix_width; i++)
+    {
+        for (int j = 0; j< this->matrix_width; j++)
+        {
+            if (this->adjacency_matrix[i*this->matrix_width + j] != this->adjacency_matrix[j*this->matrix_width + i])
+            {
+                std::cerr << "Error: (" << i << "," << j << ") != (" << j << "," << i << ")\n";
+            }
+        }
+    }
+
 }
 RelationshipFinder::~RelationshipFinder()
 {
@@ -64,8 +79,16 @@ std::string RelationshipFinder::ToString()
     for (int i = 0; i < this->matrix_width; i++)
     {
         for (int j = 0; j < this->matrix_width; j++)
-        {
-            to_return << this->adjacency_matrix[i*this->matrix_width + j] << " ";
+        {   unsigned int to_insert = this->adjacency_matrix[i*this->matrix_width + j];
+            if (to_insert == UINT_MAX)
+            {
+                to_return << "x" << " ";
+            }
+            else
+            {
+                to_return << to_insert << " ";
+            }
+            
         }
         to_return << std::endl;
     }
