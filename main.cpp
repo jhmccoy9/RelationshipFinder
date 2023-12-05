@@ -36,6 +36,16 @@ int main(int argc, char** argv)
 
     std::cout << "int size: " << sizeof(int) << std::endl;
 
+    // run floyd's algorithm:
+    relationship.FloydRelationshipFinder();
+
+    std::cout << relationship.ToString() << std::endl;
+    std::cout << std::endl;
+    std::cout << relationship.ToStringPath() << std::endl;
+
+    // calculate relationships based on user input
+    relationship.DisplayPath("LWZP-2LV", "GV16-V4W", parser.GetIDToFSID());
+
 
     return 0;
 }

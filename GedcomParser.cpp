@@ -245,4 +245,13 @@ size_t GedcomParser::NumPersons() const
     return this->persons.size();
 }
 
+std::unordered_map<id, fs_id> GedcomParser::GetIDToFSID() const
+{
+    std::unordered_map<id, fs_id> to_return;
+    for (auto it = this->persons.begin(); it != this->persons.end(); ++it)
+    {
+        to_return[it->second.GetID()] = it->second.GetFSID();
+    }
+    return to_return;
+}
 
