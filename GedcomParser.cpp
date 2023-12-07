@@ -29,13 +29,11 @@ void GedcomParser::Parse()
     // as the line being read...
     std::getline(text, line);
     std::getline(text, line);
-
     do
     {
-        //std::cout << text.str() << std::endl;  
         // pull out a new line
 
-        // first you need to find a line that begins with 0
+        // first you need to find a line that begins with 0 since
         // lines that begin with 0 could have people in them
         // or they could also define family relationships
         if (line[0] != '0')
@@ -56,15 +54,12 @@ void GedcomParser::Parse()
             {
                 // if the @ char is followed by an I, it is an individual
                 if (line[3] == 'I')
-                {
-                    std::cout << "individual: " << line << '\n';
-                    
+                {                    
                     // pull out the gedcom ID of the person
                     gedcom_id temp_gedcom = line;
                     size_t start_index = temp_gedcom.find_first_of('@');
                     size_t end_index = temp_gedcom.find_last_of('@');
                     temp_gedcom = temp_gedcom.substr(start_index + 1, end_index - 3);
-                    std::cout << "gedcom id: " << temp_gedcom << std::endl;
 
                     // pull out the name of the person
                     // start by getting a new line. it immediately succeeds the id
@@ -120,25 +115,16 @@ void GedcomParser::Parse()
                         }
                         // pull in a new line to start things over again
                         std::getline(text, line);
-
                     }
 
                     // add the wonderful new person
                     this->persons[temp_fs_id] = new_person;
-
                 }
                 // otherwise, it is a family
                 else if (line[3] == 'F')
                 {
-                    std::cout << "family: " << line << '\n';
-                    //std::getline(text, line);
-
-                    // TODO: use line 3185 as a reference. But first, add family id members to person class and parser section
-                    
                     // pull out family id
                     gedcom_id family_gedcom_id = line.substr(line.find_first_of('@') + 1, line.find_last_of('@') - line.find_first_of('@') - 1);
-                    // family_gedcom_id.pop_back();
-
 
                     std::getline(text, line);
                     // pull out husband id
@@ -176,9 +162,13 @@ void GedcomParser::Parse()
                     // convert all these gedcom ids into program ids
                     id husband_id, wife_id, child_id;
                     std::vector<id> children_ids;
+                    // go through all the persons
                     for (auto it = this->persons.begin(); it != this->persons.end(); ++it) {
+                        // if the person's husband's gedcom id is the right one,
                         if (it->second.GetGEDCOMID() == husband_gedcom_id)
+                            // get its id so you can put it in the person
                             husband_id = it->second.GetID();
+                        // do the same thing for the wife and kids as you did for the husband
                         else if (it->second.GetGEDCOMID() == wife_gedcom_id)
                             wife_id = it->second.GetID();
                         else
@@ -210,21 +200,9 @@ void GedcomParser::Parse()
                         this->persons[gedcom_to_fs[children_gedcom_ids.at(i)]].AddFather(husband_id);
                         this->persons[gedcom_to_fs[children_gedcom_ids.at(i)]].AddMother(wife_id);
                     }
-
-                    // print out the family
-                    std::cout << "father: " << gedcom_to_fs[id_to_gedcom[husband_id]] << "\n";
-                    std::cout << "mother: " << gedcom_to_fs[id_to_gedcom[wife_id]] << "\n";
-                    std::cout << "children\n";
-                    for (int i = 0; i < children_ids.size(); i++)
-                    {
-                        std::cout << "  " << gedcom_to_fs[id_to_gedcom[children_ids.at(i)]] <<"\n";
-                    }
-                    std::cout << std::endl;
-
                 }
             }
         }
-
     } while(line != "\0");
 
 }
@@ -244,14 +222,3 @@ size_t GedcomParser::NumPersons() const
 {
     return this->persons.size();
 }
-
-std::unordered_map<id, fs_id> GedcomParser::GetIDToFSID() const
-{
-    std::unordered_map<id, fs_id> to_return;
-    for (auto it = this->persons.begin(); it != this->persons.end(); ++it)
-    {
-        to_return[it->second.GetID()] = it->second.GetFSID();
-    }
-    return to_return;
-}
-

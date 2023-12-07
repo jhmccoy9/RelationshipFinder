@@ -27,18 +27,16 @@ class RelationshipFinder
         // Floyd's algorithm: finds all paths between all points
         void FloydRelationshipFinder(); // just updates the original adjacency matrix
 
-        // call after running Floyd's algorithm. Prints the connection between two people
-        void DisplayPath(fs_id start, fs_id end, std::unordered_map<id, fs_id> id_to_fsid);
+        // must call after running Floyd's algorithm. Prints the connection between two people
+        void DisplayPath(fs_id start, fs_id end);
         
 
     private:
         unsigned int* adjacency_matrix; // the matrix is 2d but stored as 1d
-        unsigned int* prev;
+        unsigned int* prev; // this is a matrix that helps you find the path between people
         unsigned int matrix_width; // matrix is square
-        mutable std::unordered_map<fs_id, Person> family_map;
+        mutable std::unordered_map<fs_id, Person> family_map; 
         unsigned int max_dist; // maximum distance to fill in values: uint_max minus (num people + 1)
-        std::unordered_map<id, fs_id> id_to_fs_id;
-
 };
 
 #endif //RELATIONSHIP_FINDER_H

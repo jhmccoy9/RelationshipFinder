@@ -3,10 +3,10 @@ This is a class containing the most important information about someone
 in FamilySearch. Created by Jacob McCoy on 28 November 2023
 */
 
-
 #include "Person.h"
 #include <sstream>
 
+// default constructor
 Person::Person(id personal_id, gedcom_id personal_gedcom_id, fs_id personal_fs_id, std::string name)
 {
     this->personal_id = personal_id;
@@ -15,6 +15,7 @@ Person::Person(id personal_id, gedcom_id personal_gedcom_id, fs_id personal_fs_i
     this->name = name;
 }
 
+// empty constructor
 Person::Person(){}
 
 fs_id Person::GetFSID() const 
@@ -26,7 +27,6 @@ gedcom_id Person::GetGEDCOMID() const
 {
     return this->personal_gedcom_id;
 }
-
 
 id Person::GetID() const
 {
@@ -54,7 +54,6 @@ void Person::AddSpouse(id spouse_id)
 {
     this->spouse_ids.push_back(spouse_id);
 }
-
 
 void Person::AddChild(id child_id)
 {
@@ -126,7 +125,6 @@ std::string Person::ToString() const
     }
     to_return << '\n';
 
-    // TODO: maybe include more information as needed
     return to_return.str();
 }
 

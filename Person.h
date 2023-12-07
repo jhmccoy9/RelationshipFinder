@@ -16,14 +16,18 @@ typedef std::string gedcom_id;
 class Person
 {
     public:
+        // constructors
         Person(id personal_id, gedcom_id personal_gedcom_id, fs_id personal_fs_id, std::string name);
         Person();
 
+        // get key data about a person
         fs_id GetFSID() const;
         id GetID() const;
         std::string GetName() const;
         gedcom_id GetGEDCOMID() const;
 
+        // add relationships. the first four are for adding people
+        // the last two are for adding them to families, an intermediate step
         void AddFather(id father_id);
         void AddMother(id mother_id);
         void AddSpouse(id spouse_id);
@@ -31,6 +35,7 @@ class Person
         void AddFamilySpouse(gedcom_id id);
         void AddFamilyChild(gedcom_id id);
 
+        // get family relationships
         std::vector<id> GetFathers() const;
         std::vector<id> GetMothers() const;
         std::vector<id> GetSpouses() const;
@@ -59,8 +64,6 @@ class Person
         std::vector<id> father_ids;
         std::vector<id> spouse_ids;
         std::vector<id> child_ids;
-
-
 };
 
 
