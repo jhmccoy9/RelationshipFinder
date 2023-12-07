@@ -66,47 +66,26 @@ RelationshipFinder::RelationshipFinder(std::unordered_map<fs_id, Person> person_
         // pull out the id
         id current_id = person.second.GetID();
 
-        if (current_id == 0)
-        {
-            int j = 0;
-        }
-
         // on that id's row, add a 1 in the column of each relationship
         // spouse relationships
         for (int i = 0; i < person.second.GetSpouses().size(); i++)
         {
             this->adjacency_matrix[current_id * this->matrix_width + person.second.GetSpouses().at(i)] = 1;
-            if (current_id == 0 && this->matrix_width + person.second.GetSpouses().at(i) == 97)
-            {
-                int j=1;
-            }
         }
         // child relationships
         for (int i = 0; i < person.second.GetChildren().size(); i++)
         {
             this->adjacency_matrix[current_id * this->matrix_width + person.second.GetChildren().at(i)] = 1;
-            if (current_id == 0 && this->matrix_width + person.second.GetChildren().at(i) == 97)
-            {
-                int j=1;
-            }
         }
         // father relationships
         for (int i = 0; i < person.second.GetFathers().size(); i++)
         {
             this->adjacency_matrix[current_id * this->matrix_width + person.second.GetFathers().at(i)] = 1;
-            if (current_id == 0 && this->matrix_width + person.second.GetFathers().at(i) == 97)
-            {
-                int j=1;
-            }
         }
         // mother relationships
         for (int i = 0; i < person.second.GetMothers().size(); i++)
         {
             this->adjacency_matrix[current_id * this->matrix_width + person.second.GetMothers().at(i)] = 1;
-            if (current_id == 0 && this->matrix_width + person.second.GetMothers().at(i) == 97)
-            {
-                int j=1;
-            }
         }
     }
 
