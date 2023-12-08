@@ -9,7 +9,6 @@
 #include <sstream>
 
 #define NUM_THREADS 8
-
 // TEST_MODE is used if you want runtime stats and other things
 #define TEST_MODE
 
@@ -20,7 +19,7 @@ int main(int argc, char** argv)
 
     // pull in the data from the gedcom file
     //std::string gedcom_file = argv[1];
-    std::string gedcom_file = "family_tree.ged";
+    std::string gedcom_file = "best_big.ged";
     std::ifstream in;
     in.open(gedcom_file);
     std::stringstream ss;

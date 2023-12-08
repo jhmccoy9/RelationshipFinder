@@ -10,7 +10,7 @@ person objects. Created by Jacob McCoy on 28 November 2023
 #include <chrono>
 #define CHUNK_SIZE 25
 
-//#define OMP_TEST_MODE
+#define OMP_TEST_MODE
 
 // the constructor creates the adjacency matrix dynamically
 RelationshipFinder::RelationshipFinder(std::unordered_map<fs_id, Person> person_map)
@@ -58,7 +58,6 @@ RelationshipFinder::RelationshipFinder(std::unordered_map<fs_id, Person> person_
     std::cout << "OpenMP ";
     #endif
     std::cout << "Matrix Filling Time: " << duration.count() << " ns" << std::endl;
-
 
     // for each item in the map
     for (auto& person : person_map)
@@ -209,7 +208,7 @@ void RelationshipFinder::FloydRelationshipFinder()
     #ifdef OMP_TEST_MODE
     std::cout << "OpenMP ";
     #endif
-    std::cout << "Dijkstra's Algorithm Time: " << duration.count() << " ns" << std::endl;
+    std::cout << "Floyd's Algorithm Time: " << duration.count() << " ns" << std::endl;
     return;
 }
 

@@ -119,6 +119,10 @@ void GedcomParser::Parse()
 
                     // add the wonderful new person
                     this->persons[temp_fs_id] = new_person;
+                    if (temp_fs_id == "")
+                    {
+                        int error_HERE = 1;
+                    }
                 }
                 // otherwise, it is a family
                 else if (line[3] == 'F')
@@ -162,15 +166,23 @@ void GedcomParser::Parse()
                     // convert all these gedcom ids into program ids
                     id husband_id, wife_id, child_id;
                     std::vector<id> children_ids;
+                    bool husband_exists, wife_exists;
+                    husband_exists = wife_exists = false;
                     // go through all the persons
                     for (auto it = this->persons.begin(); it != this->persons.end(); ++it) {
                         // if the person's husband's gedcom id is the right one,
                         if (it->second.GetGEDCOMID() == husband_gedcom_id)
+                        {
                             // get its id so you can put it in the person
                             husband_id = it->second.GetID();
+                            husband_exists = true;
+                        }
                         // do the same thing for the wife and kids as you did for the husband
                         else if (it->second.GetGEDCOMID() == wife_gedcom_id)
+                        {
                             wife_id = it->second.GetID();
+                            wife_exists = true;
+                        }
                         else
                         {
                             for (int i = 0; i < children_gedcom_ids.size(); i++)
@@ -188,9 +200,25 @@ void GedcomParser::Parse()
                     // the family parts into the people right now
 
                     // with the husband id, you find the husband and add the wife's id
-                    this->persons[gedcom_to_fs[husband_gedcom_id]].AddSpouse(wife_id);
+                    if (husband_exists && wife_exists)
+                    {
+                        this->persons[gedcom_to_fs[husband_gedcom_id]].AddSpouse(wife_id);
+                    }
                     // reverse to the wife
-                    this->persons[gedcom_to_fs[wife_gedcom_id]].AddSpouse(husband_id);
+                    if (wife_exists && husband_exists)
+                    {
+                        this->persons[gedcom_to_fs[wife_gedcom_id]].AddSpouse(husband_id);
+                        if (husband_id > this->persons.size())
+                        {
+                            int uhohproblem = 1;
+                        }
+                    }
+
+                    if (family_gedcom_id == "F74")
+                    {
+                        int u = 0;
+                    }
+
                     // you also add the children's ids to the parents and vice versa
                     // the hearts of the children turning to their fathers...
                     for (int i = 0; i < children_ids.size(); i++)
