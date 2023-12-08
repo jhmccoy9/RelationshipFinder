@@ -8,8 +8,12 @@ person objects. Created by Jacob McCoy on 28 November 2023
 #include <sstream>
 #include <iostream>
 #include <chrono>
-#define CHUNK_SIZE 25
 
+// chunk size determines how many iterations of a for loop each thread does
+// at a time. change as desired
+#define CHUNK_SIZE 25 
+
+// leave defined if you want OpenMP in your code
 #define OMP_TEST_MODE
 
 // the constructor creates the adjacency matrix dynamically
@@ -35,7 +39,9 @@ RelationshipFinder::RelationshipFinder(std::unordered_map<fs_id, Person> person_
     {
         for (int j = 0; j < this->matrix_width; j++)
         {
+            // by default, the distance from one node to another is infinity
             this->adjacency_matrix[i*matrix_width + j] = this->max_dist;
+            // by default, to get from i from j, you go directly to i
             this->prev[i*matrix_width + j] = i;
         }
         // // put zeros on the diagonal for the adjacency matrix
@@ -44,20 +50,13 @@ RelationshipFinder::RelationshipFinder(std::unordered_map<fs_id, Person> person_
         this->prev[i*matrix_width + i] = i;
     }
 
-    // for (int i = 0; i < this->matrix_width; i++)
-    // {
-    //     // put zeros on the diagonal for the adjacency matrix
-    //     // and itself on the diagonal for the previous matrix
-    //     this->adjacency_matrix[i*matrix_width + i] = 0;
-    //     this->prev[i*matrix_width + i] = i;
-    // }
-
+    // print out some timing stats
     auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
     #ifdef OMP_TEST_MODE
     std::cout << "OpenMP ";
     #endif
-    std::cout << "Matrix Filling Time: " << duration.count() << " ns" << std::endl;
+    std::cout << "Matrix Filling Time: " << duration.count() << " us" << std::endl;
 
     // for each item in the map
     for (auto& person : person_map)
@@ -203,12 +202,14 @@ void RelationshipFinder::FloydRelationshipFinder()
             }
         }
     }
+
+    // print out the timing of everything
     auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
     #ifdef OMP_TEST_MODE
     std::cout << "OpenMP ";
     #endif
-    std::cout << "Floyd's Algorithm Time: " << duration.count() << " ns" << std::endl;
+    std::cout << "Floyd's Algorithm Time: " << duration.count() << " us" << std::endl;
     return;
 }
 

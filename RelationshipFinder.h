@@ -36,7 +36,7 @@ class RelationshipFinder
         unsigned int* prev; // this is a matrix that helps you find the path between people
         unsigned int matrix_width; // matrix is square
         mutable std::unordered_map<fs_id, Person> family_map; 
-        unsigned int max_dist; // maximum distance to fill in values: uint_max minus (num people + 1)
+        unsigned int max_dist; // maximum distance to fill in values: uint_max minus (num people plus 1)
 };
 
 #endif //RELATIONSHIP_FINDER_H

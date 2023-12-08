@@ -14,6 +14,8 @@ GedcomParser::GedcomParser(std::string gedcom_string)
 }
 
 // parse the gedcom string into the map
+// NOTE: if the gedcom file is incomplete or has something wrong with
+// it, the parsing and rest of the code will not work.
 void GedcomParser::Parse()
 {
     std::stringstream text;

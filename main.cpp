@@ -1,16 +1,14 @@
 #include "Person.h"
 #include "GedcomParser.h"
 #include "RelationshipFinder.h"
-// #include "htk.h"
 #include <iostream>
 #include <omp.h>
 #include <string>
 #include <fstream>
 #include <sstream>
 
+// set the number of threads to be used. 
 #define NUM_THREADS 8
-// TEST_MODE is used if you want runtime stats and other things
-#define TEST_MODE
 
 int main(int argc, char** argv)
 {
@@ -31,9 +29,7 @@ int main(int argc, char** argv)
     GedcomParser parser(gedcom_text);
     parser.Parse();
 
-    #ifdef TEST_MODE
     std::cout << "Num people: " << parser.NumPersons() << std::endl;
-    #endif
 
     // pull out the people so you can make the adjacency matrix
     std::unordered_map<fs_id, Person> my_family;
@@ -41,21 +37,13 @@ int main(int argc, char** argv)
 
     // make the adjacency matrix
     RelationshipFinder relationship(my_family);
-    #ifdef TEST_MODE
-    //std::cout << relationship.ToString() << std::endl;
-    #endif
 
     // run floyd's algorithm:
     relationship.FloydRelationshipFinder();
 
-    #ifdef TEST_MODE
-    //std::cout << relationship.ToString() << std::endl;
-    std::cout << std::endl;
-    //std::cout << relationship.ToStringPath() << std::endl;
-    #endif
-
     // calculate and display relationships based on user input
     std::cout << "Enter two people's FamilySearch IDs to show their relationship" << std::endl;
+    std::cout << "To quit, type 'exit' instead of a FamilySearch ID" << std::endl;
     while(true)
     {
         fs_id first, second;
@@ -64,15 +52,25 @@ int main(int argc, char** argv)
         std::cin >> first;
         std::cout << std::endl;
 
+        if (first == "exit")
+        {
+            break;
+        }
+
         // get the second FamilySearch ID
         std::cout << "Person 2: ";
         std::cin >> second;
         std::cout << std::endl;
 
+        if (second == "exit")
+        {
+            break;
+        }
+
         // display the path and keep going
         relationship.DisplayPath(first, second);
+        std::cout << std::endl;
 
-        std::cout << "To end, press ctrl+c" << std::endl << std::endl;
     }
 
     return 0;

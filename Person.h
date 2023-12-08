@@ -66,5 +66,4 @@ class Person
         std::vector<id> child_ids;
 };
 
-
 #endif /* PERSON_H */
